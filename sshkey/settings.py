@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_oauth_usp.accounts'
 ]
 
 MIDDLEWARE = [
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_oauth_usp.accounts.middleware.OAuthUspMiddleware'
 ]
 
 ROOT_URLCONF = 'sshkey.urls'
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'sshkey.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -121,3 +123,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+### django_oauth_usp
+AUTH_USER_MODEL = 'accounts.UserModel'
+
+OAUTH_CALLBACK_ID = '31'
+
+AUTHLIB_OAUTH_CLIENTS = {
+    'usp': {
+        'client_id': 'meu_client_id',
+        'client_secret': 'meu_secret_key'
+    }
+}
+
+#Rota utilizada para a view accounts_authorize
+REDIRECT_URI = '/auth/authorize'
+
+#Lista com o código das unidades que poderão ter acesso.
+ALLOWED_UNIDADES = [45]
+
+REDIRECT_AFTER_LOGOUT_URL = '/'
